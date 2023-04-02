@@ -1,0 +1,60 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.25"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "IKT_Batx_2_programazio_lana",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "IKT_Batx_2_programazio_lana::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-IKT_Batx_2_programazio_lana-Debug-cd367c65439bec3192f6.json",
+					"name" : "IKT_Batx_2_programazio_lana",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/UnaiIglesiasRodrigue/CLionProjects/IKT Batx 2 programazio lana/cmake-build-debug",
+		"source" : "C:/Users/UnaiIglesiasRodrigue/CLionProjects/IKT Batx 2 programazio lana"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

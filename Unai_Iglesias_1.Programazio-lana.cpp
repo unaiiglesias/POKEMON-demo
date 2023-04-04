@@ -2,9 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <string>
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wwritable-strings"
 using namespace std;
 
 int print_from_txt(char file_name[100])
@@ -94,5 +91,3 @@ int main()
 	
 	// Amaiera
 }
-
-#pragma clang diagnostic pop

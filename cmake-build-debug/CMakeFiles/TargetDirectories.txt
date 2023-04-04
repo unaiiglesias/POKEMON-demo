@@ -1,3 +1,0 @@
-C:/Users/UnaiIglesiasRodrigue/CLionProjects/IKT Batx 2 programazio lana/cmake-build-debug/CMakeFiles/IKT_Batx_2_programazio_lana.dir
-C:/Users/UnaiIglesiasRodrigue/CLionProjects/IKT Batx 2 programazio lana/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/UnaiIglesiasRodrigue/CLionProjects/IKT Batx 2 programazio lana/cmake-build-debug/CMakeFiles/rebuild_cache.dir

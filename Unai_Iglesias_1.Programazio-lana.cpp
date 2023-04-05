@@ -78,7 +78,8 @@ int main()
 	printf("Ongi etorri Pokemonen mundura!\n");
 	
 	press_any_key_to_continue();
-	print_from_txt("oak.txt");
+	print_from_txt("oak2.txt");
+	printf("cambia algo");
 	printf("Oak Irakaslea nauzu, opari bat dut zuretzat...\n");
 	press_any_key_to_continue();
 

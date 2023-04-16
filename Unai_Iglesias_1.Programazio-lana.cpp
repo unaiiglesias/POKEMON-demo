@@ -328,6 +328,7 @@ int main()
 	print_from_txt("oak.txt");
 	string zoaz_borrokatzera[] = {"Ederki!", "Orain, zoaz zure lagun berriarekin abenturara!"};
 	print_dialogue(zoaz_borrokatzera, 2, "Oak irakaslea");
+	press_any_key_to_continue();
 
 	// 
 	// Istorioa / Erabakiak
@@ -338,7 +339,9 @@ int main()
 	 kontra borrokatuko den erabakiko da.
 	*/
 	
-	
+	print_from_txt("ama.txt");
+	string zoaz_borrokatzeraa[] = {"Ederki!", "Orain, zoaz zure lagun berriarekin abenturara!"};
+	print_dialogue(zoaz_borrokatzeraa, 2, "Oak irakaslea");
 	
 	
 	

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
-
+#include <iostream>
 using namespace std;
 
 
@@ -39,19 +39,28 @@ int print_from_txt(string file_name)
 }
 
 
-void print_dialogue(string* text, int line_amount){
+void print_dialogue(string* text, int line_amount, string talker = "Narratzailea"){
 
 	
 	/* Funtzio hau string bat jasotzen du eta "dialogo" moduan (karratuarekin) inprimatzen du,
-		dialogoaren lerro kopurua pasa behar zaio ere
+		dialogoaren lerro kopurua ere pasa behar zaio.
+		
+		Aukerako aldagaia: hizlaria
 	
 	 Hainbat lerroko dialogo bat sortzeko array batean pasa behar dira lerro bakoitza
 	 OHARRA: array bat pasatzean errorerik ez jasotzeko, array-a pasa baino lehen deklaratu behar da*/
+
+	
+		// Zein pertsonai hitz egiten ari da (Narratzailea ez bada)
+	if (talker != "Narratzailea"){
+		printf("--[ %s ]--\n", talker.c_str());	
+	}
 	
 	printf("+                                                  +\n");
 	
 	int max_line_length = 48;
 	
+
 	// Dialogoaren lerro bakoitzeko
 	for (int i = 0; i < line_amount; i++){
 		printf("| ");
@@ -217,19 +226,23 @@ int main()
 	//
 	
 	print_from_txt("oak.txt");
-	string ongi_etorria[] = {"Kaixo, jokalari", "Ongi etorri Pokemon mundura!"};
-	print_dialogue(ongi_etorria, 2);
+	string ongi_etorria[] = {"Kaixo, jokalari", "Nola duzu izena?"};
+	print_dialogue(ongi_etorria, 2, "?????????????");
+	string player_name;
+	cin >> player_name; // scanf-rekin eginez gero arazoak ematen ditu
 	/*
 	printf("+                                                  +\n");
 	printf("| Kaixo, jokalari                                  |\n");
 	printf("| Ongi etorri Pokemon mundura!                     |\n");
+	printf("| Nola duzu izena?                                 |\n");
 	printf("+                                                  +\n");
 	*/
 	press_any_key_to_continue();
 	
 	print_from_txt("oak.txt");
-	string mezua[] = {"Oak Irakaslea nauzu, opari bat dut zuretzat..."};
-	print_dialogue(mezua, 1);
+	string mezua[] = {"Kaixo " + player_name +". Oak irakaslea naiz",
+					  "Ongi etorri pokemon mundura!"};
+	print_dialogue(mezua, 2, "Oak irakaslea");
 	/*
 	printf("+                                                  +\n");
 	printf("| Oak Irakaslea nauzu, opari bat dut zuretzat...   |\n");
@@ -242,7 +255,7 @@ int main()
 	string oparia_mezua[] = {"Pokemon bat oparituko dizut!", 
 							 "Baina, horretarako, hauetako bat", 
 							 "aukeratu behar duzu:"};
-	print_dialogue(oparia_mezua, 3);
+	print_dialogue(oparia_mezua, 3, "Oak irakaslea");
 	/*
 	printf("+                                                  +\n");
 	printf("| Pokemon bat oparituko dizut!					   |\n");
@@ -309,7 +322,12 @@ int main()
 	
 	print_from_txt(player_pokemon.name + ".txt");
 	string pokemona_aukeratu_duzu[] = {player_pokemon.name + " aukeratu duzu!"};
-	print_dialogue(pokemona_aukeratu_duzu, 1);
+	print_dialogue(pokemona_aukeratu_duzu, 1, "Oak irakaslea");
+	press_any_key_to_continue();
+
+	print_from_txt("oak.txt");
+	string zoaz_borrokatzera[] = {"Ederki!", "Orain, zoaz zure lagun berriarekin abenturara!"};
+	print_dialogue(zoaz_borrokatzera, 2, "Oak irakaslea");
 
 	// 
 	// Istorioa / Erabakiak
@@ -319,6 +337,10 @@ int main()
 	Kodearen zati honetan, jokalariaren erabakien bitartez, zein pokemonaren
 	 kontra borrokatuko den erabakiko da.
 	*/
+	
+	
+	
+	
 	
 	// Borroka
 

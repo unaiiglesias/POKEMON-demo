@@ -90,6 +90,8 @@ void press_any_key_to_continue(){
 
 int choose_pokemon(){
 	
+	/*Behin bakarrik dehituko den funtzioa, jokalariari pokemona aukeratzeko eskatzeko*/
+	
     print_from_txt("Chimchar.txt");
     string initial_1_desc[] = {"Chimchar, suz-ko pokemona"};
     print_dialogue(initial_1_desc, 1);
@@ -130,11 +132,9 @@ int main()
 	
 	// Mugimenduen motak: Normala, Sua, Ura, Landarea, Izotza, Borroka, Pozoia, Lurra
 	
-	// Mugimenduak estruktura moduan gordeta
 	
 	struct {
-		// Ez dakit zergatik baina bi aldagai hauek, const char* motakoak ez badira
-		// konpiladoreak abisu (warning) bat ematen du
+		// Pokemon bakoitzak horrelako estruktura bat izango du
 		string name;
 		string type;
 		string moves[4];
@@ -152,6 +152,7 @@ int main()
 	/* Oharra: pokemonen mugimenduak (erasoak) definitzean banaka egin behar da*/
 	
 	// Pokemon basatia
+	
 	wild_pokemon.name = "Mudkip";
 	wild_pokemon.type = "Ura";
 	wild_pokemon.moves[1] = "Harramazkada";
@@ -195,7 +196,10 @@ int main()
 	rival_pokemon.max_HP = 1; // aldi baterakoa
 	rival_pokemon.HP = rival_pokemon.max_HP;
 	
-	// Aurkezpena / Titulua
+	//
+	// Titulua
+	//
+	
 	print_from_txt("banner.txt");
 	print_from_txt("test.txt");
 	
@@ -208,7 +212,10 @@ int main()
 	*/
 	press_any_key_to_continue();
 	
-	// Pokemon-a aukeratu
+	//
+	// Hasiera / Aurkezpena
+	//
+	
 	print_from_txt("oak.txt");
 	string ongi_etorria[] = {"Kaixo, jokalari", "Ongi etorri Pokemon mundura!"};
 	print_dialogue(ongi_etorria, 2);
@@ -245,9 +252,11 @@ int main()
 	*/
 	press_any_key_to_continue();
 	
-	// Hasierako pokemona aukeratu
+	//
+	// Hasierako pokemonaren aukeraketa
+	//
+	
 	int chosen_pokemon = choose_pokemon();
-
 	
 	// Chimchar
 	if (chosen_pokemon == 1)
@@ -301,6 +310,15 @@ int main()
 	print_from_txt(player_pokemon.name + ".txt");
 	string pokemona_aukeratu_duzu[] = {player_pokemon.name + " aukeratu duzu!"};
 	print_dialogue(pokemona_aukeratu_duzu, 1);
+
+	// 
+	// Istorioa / Erabakiak
+	//
+	
+	/*
+	Kodearen zati honetan, jokalariaren erabakien bitartez, zein pokemonaren
+	 kontra borrokatuko den erabakiko da.
+	*/
 	
 	// Borroka
 

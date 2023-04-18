@@ -135,6 +135,26 @@ int choose_pokemon(){
 	
 }
 
+int get_rival(int menu_code){
+	
+	while ((menu_code != 0) && (menu_code != 1) && (menu_code != 2) && (menu_code != 3))
+	{
+		string barkatu_hau_demo_bat_baino_ez_da[] =  {"Joko hau \"demo\" bat baino ez da.",
+												  	"Beraz, istorio baten ordez menu bat erabiltzen da borrokan sartzeko"}; // '\' karakterea " inprimatzeko erabiltzen da
+		print_dialogue(barkatu_hau_demo_bat_baino_ez_da, 2);
+		
+		printf(" 0 - Jokotik irten \n");
+		printf(" 1 - Pokemon basatia \n");
+		printf(" 1 - Gimnasio lider-a \n");
+		printf(" 3 - Lagun / Lehiakidea \n");
+		
+		scanf("%d", &menu_code);
+	}
+	
+	return menu_code;
+}
+
+
 
 int main()
 {	
@@ -153,8 +173,10 @@ int main()
 		int max_HP; // Bizitza puntu maximoak
 		int HP; // Aldiuneko bizitza puntuak
 	} player_pokemon, wild_pokemon, gym_pokemon, rival_pokemon;
-	/* Jokoak 3 pokemonen kontra borrokatzeko aukera emango du:
-	 Pokemon basatia, gimnasio buruaren pokemona eta gure aurkariaren pokemona */
+	/*
+	 Jokoak 3 pokemonen kontra borrokatzeko aukera emango du:
+	 Pokemon basatia, gimnasio buruaren pokemona eta gure (istoriako, ez badago progrmatuta ere) aurkariaren  pokemona 
+	 */
 	
 	// Haien kontra burrokatuko dugun pokemonen definizioa
 	
@@ -341,22 +363,33 @@ int main()
 	press_any_key_to_continue();
 
 	// 
-	// Istorioa / Erabakiak
+	// Aurkaria aukeratzeko menua --> Borroka
 	//
 	
 	/*
-	Kodearen zati honetan, jokalariaren erabakien bitartez, zein pokemonaren
-	 kontra borrokatuko den erabakiko da.
+	OHARRA: Joko hau demo bat baino ez denez, ez da istoriorik kontatuko. 
+			Hemen, noren kontra borrokatzeko aukeratzeko menu bat agertuko da.
 	*/
 	
-	print_from_txt("ama.txt");
-	string zoaz_borrokatzeraa[] = {"Ederki!", "Orain, zoaz zure lagun berriarekin abenturara!"};
-	print_dialogue(zoaz_borrokatzeraa, 2, "Oak irakaslea");
+			int menu_code = -1;
+		/*
+		Aldagai honen arabera erabakiko da zer egin:
+			- "1", "2", "3" :  Borrokatu (aurkarien aukerak)
+			- "0" : Jokoa bukatu, programa itxi
+			- "-1" : Balio lehenetsia, galdetu behar
+		*/
 	
+	do { // menuaren bukle nagusia
 	
-	
-	// Borroka
-
-
-	// Amaiera
+		menu_code = get_rival(menu_code);
+		
+		if (menu_code == 0) // ateratzeko kodea bada, zuzenean irten
+		{
+			printf("\nIrteten....");
+			exit(0);
+		}
+		
+		
+		menu_code = -1; // Aldagaia reseteatu hurrengo iteraziorako
+	} while(menu_code != 0);
 }

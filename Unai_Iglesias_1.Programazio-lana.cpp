@@ -230,6 +230,16 @@ int main()
 	print_dialogue(ongi_etorria, 2, "?????????????");
 	string player_name;
 	cin >> player_name; // scanf-rekin eginez gero arazoak ematen ditu
+	
+	while (player_name.length() > 20){ // Jokalariaren izen agehienez 20 karakterekoa izan dadin
+
+		system("cls"); // Kontsola garbitu
+		print_from_txt("oak.txt");
+		string izen_motzagoa_aukeratu[] = {"Ez dut uste zure izena horren luzea denik...", "Izen motzago bat aukeratu:"};
+		print_dialogue(izen_motzagoa_aukeratu, 2, "?????????????");	
+		cin >> player_name; // scanf-rekin eginez gero arazoak ematen ditu
+	} 
+
 	/*
 	printf("+                                                  +\n");
 	printf("| Kaixo, jokalari                                  |\n");

@@ -144,9 +144,9 @@ int get_rival(int menu_code){
 		print_dialogue(barkatu_hau_demo_bat_baino_ez_da, 2);
 		
 		printf(" 0 - Jokotik irten \n");
-		printf(" 1 - Pokemon basatia \n");
-		printf(" 1 - Gimnasio lider-a \n");
-		printf(" 3 - Lagun / Lehiakidea \n");
+		printf(" 1 - Pokemon basatia (Erraza) \n");
+		printf(" 1 - Gimnasio lider-a (Normala) \n");
+		printf(" 3 - Lagun / Lehiakidea (Zaila) \n");
 		
 		scanf("%d", &menu_code);
 	}

@@ -4,6 +4,18 @@
 #include <iostream>
 using namespace std;
 
+struct pokemon{
+	// Pokemon bakoitzak horrelako estruktura bat izango du
+	string name;
+	string master; // pokemonaren jabearen izena
+	string type;
+	string moves[4];
+	string move_types[4];
+	int attack;
+	int defense;
+	int max_HP; // Bizitza puntu maximoak
+	int HP; // Aldiuneko bizitza puntuak
+};
 
 int print_from_txt(string file_name)
 {
@@ -145,7 +157,7 @@ int get_rival(int menu_code){
 		
 		printf(" 0 - Jokotik irten \n");
 		printf(" 1 - Pokemon basatia (Erraza) \n");
-		printf(" 1 - Gimnasio lider-a (Normala) \n");
+		printf(" 2 - Gimnasio lider-a (Normala) \n");
 		printf(" 3 - Lagun / Lehiakidea (Zaila) \n");
 		
 		scanf("%d", &menu_code);
@@ -154,6 +166,34 @@ int get_rival(int menu_code){
 	return menu_code;
 }
 
+bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon, string enemy_pokemon_sprite, string enemy_sprite = " "){
+	
+	system("cls");
+	fflush(stdin);
+	
+	if (enemy_sprite != " ") // pokemon basatiaren kasuan ez da hau egin behar, zuzenean pokemona agertuko da
+	{
+		// Pertsonaiaren aurkezpena
+		print_from_txt(enemy_sprite);
+		string enemy_introduction[] = {enemy_pokemon.master, "Borroka batera desafiatu zaitu"};
+		print_dialogue(enemy_introduction, 2, enemy_pokemon.master);
+		
+		press_any_key_to_continue();
+		
+		// Pertsonaiaren pokemonaren aurkezpena
+		
+		print_from_txt(enemy_pokemon_sprite);
+		string enemy_pokemon_introduction[] = {enemy_pokemon.master + "-ek bere " + enemy_pokemon.name + " atera du"};
+		print_dialogue(enemy_pokemon_introduction, 1);
+		
+		press_any_key_to_continue();
+	}
+	
+	print_from_txt(enemy_pokemon_sprite);
+
+	
+	
+}
 
 
 int main()
@@ -161,18 +201,8 @@ int main()
 	
 	// Mugimenduen motak: Normala, Sua, Ura, Landarea, Izotza, Borroka, Pozoia, Lurra
 	
+	struct pokemon player_pokemon, wild_pokemon, gym_pokemon, rival_pokemon;
 	
-	struct {
-		// Pokemon bakoitzak horrelako estruktura bat izango du
-		string name;
-		string type;
-		string moves[4];
-		string move_types[4];
-		int attack;
-		int defense;
-		int max_HP; // Bizitza puntu maximoak
-		int HP; // Aldiuneko bizitza puntuak
-	} player_pokemon, wild_pokemon, gym_pokemon, rival_pokemon;
 	/*
 	 Jokoak 3 pokemonen kontra borrokatzeko aukera emango du:
 	 Pokemon basatia, gimnasio buruaren pokemona eta gure (istoriako, ez badago progrmatuta ere) aurkariaren  pokemona 
@@ -201,6 +231,7 @@ int main()
 	
 	gym_pokemon.name = "Sunflora";
 	gym_pokemon.type = "Landarea";
+	gym_pokemon.master = "Brais";
 	gym_pokemon.moves[1] = "Plakaketa";
 	gym_pokemon.moves[2] = "Eguzki izpia";
 	gym_pokemon.moves[3] = "Lokatz uhina";
@@ -216,6 +247,7 @@ int main()
 	
 	rival_pokemon.name = "Virizion";
 	rival_pokemon.type = "Landarea";
+	rival_pokemon.master = "Israel";
 	rival_pokemon.moves[1] = "Ezpata sakratua";
 	rival_pokemon.moves[2] = "Harramazkada";
 	rival_pokemon.moves[3] = "Hostotza";
@@ -387,6 +419,23 @@ int main()
 		{
 			printf("\nIrteten....");
 			exit(0);
+		}
+		
+		switch (menu_code)
+		{
+			case 0: printf("\nIrteten....");
+					exit(0);
+			case 1: pokemon_combat(player_pokemon, wild_pokemon, "wild.txt");
+				// Wild pokemon
+					break;
+			case 2: pokemon_combat(player_pokemon, gym_pokemon, "gym_leader_pokemon.txt", "gym_leader.txt");
+				// Gym leader pokemon
+					break;
+			case 3: pokemon_combat(player_pokemon, rival_pokemon,"rival_pokemon.txt", "rival.txt");
+				// Rival pokemon
+					break;
+			
+			default: printf("ERROR: Invalid menu_code --> %d", menu_code);
 		}
 		
 		

@@ -14,7 +14,7 @@ struct pokemon{
 	int attack;
 	int defense;
 	int max_HP; // Bizitza puntu maximoak
-	int HP; // Aldiuneko bizitza puntuak
+	float HP; // Aldiuneko bizitza puntuak
 };
 
 int print_from_txt(string file_name)
@@ -166,6 +166,132 @@ int get_rival(int menu_code){
 	return menu_code;
 }
 
+
+int get_amount_of_digits(int number){
+	
+	/*
+	Zenbaki oso bat jasotzen du eta honen karaktere kopurua itzultzen du
+	Adib: get..(543) --> return 3; get..(12) --> return 2
+	Oharra: 4 digitorainoko zenbakiekin bakarri funtzionatzen du 
+	*/
+	
+	if (number < 10)
+	{
+		return 1;
+	} else if (number < 100)
+	{
+		return 2;
+	}else if (number < 1000)
+	{
+		return 3;
+	}else if (number < 10000)
+	{
+		return 4;
+	}
+}
+
+
+void print_hp_bars(struct pokemon player_pokemon, struct pokemon enemy_pokemon){
+	
+	/*
+		Bi pokemonen bizitza barrak inprimatzen dituen funtzioa
+		
+		Adib:
+		+--------------------------------------------------+
+		|pokemon: ########## (80 / 80) (landarea)		   |
+		|pokemon: ########** (64 / 80) (Sua)			   |
+		+--------------------------------------------------+
+	*/
+	
+	printf("+--------------------------------------------------+\n");
+	
+	int needed_spaces = 50; // Bukaerako | non jarri kalkulatzeko ( "-" kopurua)
+	int player_needed_chars = 0; // Bukaerako | non jarri kalkulatzeko
+	/*
+	Azalpena funtzioan zehar karaktere bat imprimatzen den bakoitzean aldagai honi 1 gehituko diogu
+	Adib: printf("Pokemon: ###**") --> player_needed_chars + 14
+	*/
+	
+	int player_max_hp = player_pokemon.max_HP;
+	float player_current_hp = player_pokemon.HP;
+	
+	// 0-10 tartekoa, behar diren # kopurua (Gutxi gora behera, markadore hau ez da guztiz zehatza izango)
+	int player_current_hp_percentage = (player_current_hp / player_max_hp) * 10;
+	
+	printf("|");
+	
+	// Imprimatu pokemonaren izena
+	printf("%s : ", player_pokemon.name.c_str());
+	player_needed_chars = player_needed_chars + 3 + player_pokemon.name.length();
+	
+	
+	for (int i = 0; i < player_current_hp_percentage; i++)
+	{
+		printf("#");
+		player_needed_chars++;
+	}
+	
+	for (int i = 0; i < (10 - player_current_hp_percentage); i++)
+	{
+		printf("*");
+		player_needed_chars++;
+	}
+	
+	printf(" ( %.0f / %d ) (%s)", player_current_hp, player_max_hp, player_pokemon.type.c_str());
+	player_needed_chars = player_needed_chars + 8 + get_amount_of_digits(player_current_hp) + get_amount_of_digits(player_max_hp) + player_pokemon.type.length() + 3;
+	
+	for (int i = 0; i < (needed_spaces - player_needed_chars); i++)
+	{
+		printf(" ");
+	}
+	printf("|");
+	
+	printf("\n");
+	
+	// GOIKO ZATIAREN BERDINA EGINGO DUGU AURKAKO POKEMONAREN BIDA BARRA IMPRIMATZEKO (Komentariorik gabe)
+	
+	int enemy_needed_chars = 0;
+	
+	int enemy_max_hp = enemy_pokemon.max_HP;
+	float enemy_current_hp = enemy_pokemon.HP;
+	
+	int enemy_current_hp_percentage = (enemy_current_hp / enemy_max_hp) * 10;
+	
+	printf("|");
+	
+	printf("%s : ", enemy_pokemon.name.c_str());
+	enemy_needed_chars = enemy_needed_chars + 3 + enemy_pokemon.name.length();
+	
+	
+	for (int i = 0; i < enemy_current_hp_percentage; i++)
+	{
+		printf("#");
+		enemy_needed_chars++;
+	}
+	
+	for (int i = 0; i < (10 - enemy_current_hp_percentage); i++)
+	{
+		printf("*");
+		enemy_needed_chars++;
+	}
+	
+	printf(" ( %.0f / %d ) (%s)", enemy_current_hp, enemy_max_hp, enemy_pokemon.type.c_str());
+	enemy_needed_chars = enemy_needed_chars + 8 + get_amount_of_digits(enemy_current_hp) + get_amount_of_digits(enemy_max_hp) + enemy_pokemon.type.length() + 3;
+	
+	for (int i = 0; i < (needed_spaces - enemy_needed_chars); i++)
+	{
+		printf(" ");
+	}
+	printf("|");
+	
+	printf("\n");
+	
+	
+	printf("+--------------------------------------------------+\n");
+	
+}
+
+
 bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon, string enemy_pokemon_sprite, string enemy_sprite = " "){
 	
 	system("cls");
@@ -198,9 +324,7 @@ bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 		
 	}
 	
-	print_from_txt(enemy_pokemon_sprite);
-
-	
+	print_hp_bars(player_pokemon, enemy_pokemon);
 	
 }
 
@@ -233,7 +357,7 @@ int main()
 	wild_pokemon.move_types[3] = "Lurra";
 	wild_pokemon.attack = 1; // aldi baterakoa
 	wild_pokemon.defense = 1; // aldi baterakoa
-	wild_pokemon.max_HP = 1; // aldi baterakoa
+	wild_pokemon.max_HP = 100; // aldi baterakoa
 	wild_pokemon.HP = wild_pokemon.max_HP;
 	
 	// Gimnasio buruaren pokemonaren definizioa
@@ -249,7 +373,7 @@ int main()
 	gym_pokemon.move_types[3] = "Pozoia";
 	gym_pokemon.attack = 1; // aldi baterakoa
 	gym_pokemon.defense = 1; // aldi baterakoa
-	gym_pokemon.max_HP = 1; // aldi baterakoa
+	gym_pokemon.max_HP = 100; // aldi baterakoa
 	gym_pokemon.HP = gym_pokemon.max_HP;
 	
 	// Aurkariaren pokemonaren definizioa
@@ -265,7 +389,7 @@ int main()
 	rival_pokemon.move_types[3] = "Landarea";
 	rival_pokemon.attack = 1; // aldi baterakoa
 	rival_pokemon.defense = 1; // aldi baterakoa
-	rival_pokemon.max_HP = 1; // aldi baterakoa
+	rival_pokemon.max_HP = 100; // aldi baterakoa
 	rival_pokemon.HP = rival_pokemon.max_HP;
 	
 	//
@@ -357,7 +481,7 @@ int main()
 		player_pokemon.move_types[3] = "Borroka";
 		player_pokemon.attack = 1; // aldi baterakoa
 		player_pokemon.defense = 1; // aldi baterakoa
-		player_pokemon.max_HP = 1; // aldi baterakoa
+		player_pokemon.max_HP = 100; // aldi baterakoa
 		player_pokemon.HP = player_pokemon.max_HP;
 	}
 	// Squirtle
@@ -373,7 +497,7 @@ int main()
 		player_pokemon.move_types[3] = "Izotza";
 		player_pokemon.attack = 1; // aldi baterakoa
 		player_pokemon.defense = 1; // aldi baterakoa
-		player_pokemon.max_HP = 1; // aldi baterakoa
+		player_pokemon.max_HP = 100; // aldi baterakoa
 		player_pokemon.HP = player_pokemon.max_HP;
 	}
 	// Chikorita
@@ -389,7 +513,7 @@ int main()
 		player_pokemon.move_types[3] = "Pozoia";
 		player_pokemon.attack = 1; // aldi baterakoa
 		player_pokemon.defense = 1; // aldi baterakoa
-		player_pokemon.max_HP = 1; // aldi baterakoa
+		player_pokemon.max_HP = 100; // aldi baterakoa
 		player_pokemon.HP = player_pokemon.max_HP;
 	}
 	

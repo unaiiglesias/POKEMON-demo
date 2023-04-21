@@ -171,7 +171,7 @@ bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 	system("cls");
 	fflush(stdin);
 	
-	if (enemy_sprite != " ") // pokemon basatiaren kasuan ez da hau egin behar, zuzenean pokemona agertuko da
+	if (enemy_sprite != " ") // Aurkaria eta gimnasio liderrarentzat
 	{
 		// Pertsonaiaren aurkezpena
 		print_from_txt(enemy_sprite);
@@ -187,6 +187,15 @@ bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 		print_dialogue(enemy_pokemon_introduction, 1);
 		
 		press_any_key_to_continue();
+		
+	} else // pokemon basatia
+	{
+		print_from_txt(enemy_pokemon_sprite);
+		string enemy_introduction[] = {enemy_pokemon.name + " basati bat agertu da!"};
+		print_dialogue(enemy_introduction, 1);
+		
+		press_any_key_to_continue();
+		
 	}
 	
 	print_from_txt(enemy_pokemon_sprite);
@@ -428,10 +437,10 @@ int main()
 			case 1: pokemon_combat(player_pokemon, wild_pokemon, "wild.txt");
 				// Wild pokemon
 					break;
-			case 2: pokemon_combat(player_pokemon, gym_pokemon, "gym_leader_pokemon.txt", "gym_leader.txt");
+			case 2: pokemon_combat(player_pokemon, gym_pokemon, "sunflora.txt", "gym_leader.txt");
 				// Gym leader pokemon
 					break;
-			case 3: pokemon_combat(player_pokemon, rival_pokemon,"rival_pokemon.txt", "rival.txt");
+			case 3: pokemon_combat(player_pokemon, rival_pokemon,"virizon.txt", "rival.txt");
 				// Rival pokemon
 					break;
 			

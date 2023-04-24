@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string>
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 struct pokemon{
@@ -14,7 +15,6 @@ struct pokemon{
 	int attack;
 	int defense;
 	int max_HP; // Bizitza puntu maximoak
-	float HP; // Aldiuneko bizitza puntuak
 };
 
 int print_from_txt(string file_name)
@@ -100,7 +100,7 @@ void press_any_key_to_continue(){
 	
 	/* Funtzio hau botoi bat sakatzea eskatzen du, irakurtzeko pausa balitz bezala.*/	
 	
-	printf("Edozein botoi sakatu jarraitzeko......");
+	printf("Enter sakatu jarraitzeko......");
 	getchar();
 	fflush(stdin);
 	fflush(stdout);
@@ -191,7 +191,7 @@ int get_amount_of_digits(int number){
 }
 
 
-void print_hp_bars(struct pokemon player_pokemon, struct pokemon enemy_pokemon){
+void print_hp_bars(struct pokemon player_pokemon, struct pokemon enemy_pokemon, float player_HP, float enemy_HP){
 	
 	/*
 		Bi pokemonen bizitza barrak inprimatzen dituen funtzioa
@@ -213,10 +213,9 @@ void print_hp_bars(struct pokemon player_pokemon, struct pokemon enemy_pokemon){
 	*/
 	
 	int player_max_hp = player_pokemon.max_HP;
-	float player_current_hp = player_pokemon.HP;
 	
 	// 0-10 tartekoa, behar diren # kopurua (Gutxi gora behera, markadore hau ez da guztiz zehatza izango)
-	int player_current_hp_percentage = (player_current_hp / player_max_hp) * 10;
+	int player_HP_percentage = (player_HP / player_max_hp) * 10;
 	
 	printf("|");
 	
@@ -225,20 +224,20 @@ void print_hp_bars(struct pokemon player_pokemon, struct pokemon enemy_pokemon){
 	player_needed_chars = player_needed_chars + 3 + player_pokemon.name.length();
 	
 	
-	for (int i = 0; i < player_current_hp_percentage; i++)
+	for (int i = 0; i < player_HP_percentage; i++)
 	{
 		printf("#");
 		player_needed_chars++;
 	}
 	
-	for (int i = 0; i < (10 - player_current_hp_percentage); i++)
+	for (int i = 0; i < (10 - player_HP_percentage); i++)
 	{
 		printf("*");
 		player_needed_chars++;
 	}
 	
-	printf(" ( %.0f / %d ) (%s)", player_current_hp, player_max_hp, player_pokemon.type.c_str());
-	player_needed_chars = player_needed_chars + 8 + get_amount_of_digits(player_current_hp) + get_amount_of_digits(player_max_hp) + player_pokemon.type.length() + 3;
+	printf(" ( %.0f / %d ) (%s)", player_HP, player_max_hp, player_pokemon.type.c_str());
+	player_needed_chars = player_needed_chars + 8 + get_amount_of_digits(player_HP) + get_amount_of_digits(player_max_hp) + player_pokemon.type.length() + 3;
 	
 	for (int i = 0; i < (needed_spaces - player_needed_chars); i++)
 	{
@@ -253,9 +252,8 @@ void print_hp_bars(struct pokemon player_pokemon, struct pokemon enemy_pokemon){
 	int enemy_needed_chars = 0;
 	
 	int enemy_max_hp = enemy_pokemon.max_HP;
-	float enemy_current_hp = enemy_pokemon.HP;
 	
-	int enemy_current_hp_percentage = (enemy_current_hp / enemy_max_hp) * 10;
+	int enemy_HP_percentage = (enemy_HP / enemy_max_hp) * 10;
 	
 	printf("|");
 	
@@ -263,20 +261,20 @@ void print_hp_bars(struct pokemon player_pokemon, struct pokemon enemy_pokemon){
 	enemy_needed_chars = enemy_needed_chars + 3 + enemy_pokemon.name.length();
 	
 	
-	for (int i = 0; i < enemy_current_hp_percentage; i++)
+	for (int i = 0; i < enemy_HP_percentage; i++)
 	{
 		printf("#");
 		enemy_needed_chars++;
 	}
 	
-	for (int i = 0; i < (10 - enemy_current_hp_percentage); i++)
+	for (int i = 0; i < (10 - enemy_HP_percentage); i++)
 	{
 		printf("*");
 		enemy_needed_chars++;
 	}
 	
-	printf(" ( %.0f / %d ) (%s)", enemy_current_hp, enemy_max_hp, enemy_pokemon.type.c_str());
-	enemy_needed_chars = enemy_needed_chars + 8 + get_amount_of_digits(enemy_current_hp) + get_amount_of_digits(enemy_max_hp) + enemy_pokemon.type.length() + 3;
+	printf(" ( %.0f / %d ) (%s)", enemy_HP, enemy_max_hp, enemy_pokemon.type.c_str());
+	enemy_needed_chars = enemy_needed_chars + 8 + get_amount_of_digits(enemy_HP) + get_amount_of_digits(enemy_max_hp) + enemy_pokemon.type.length() + 3;
 	
 	for (int i = 0; i < (needed_spaces - enemy_needed_chars); i++)
 	{
@@ -292,10 +290,179 @@ void print_hp_bars(struct pokemon player_pokemon, struct pokemon enemy_pokemon){
 }
 
 
+float get_type_multiplier(string attacker, string attacked){
+	
+	/* 
+		Funtzio hau erasoaren min biderkatzailea itzuliko du (motaren araberako, ikusi pokemonaren moten taula)
+		0 --> Eraginik ez
+		0.5 --> Ez oso eraginkorra
+		1 --> Normala, ezer berezirik
+		2 --> Oso eraginkorra
+	*/
+	
+	// Mugimenduen motak: Normala, Sua, Ura, Landarea, Izotza, Borroka, Pozoia, Lurra
+	
+	if (attacked == "Normala")
+	{
+		if (attacker == "Borroka"){
+			return 2;
+		}else {
+			return 1;
+		}
+		
+		
+	}else if (attacked == "Sua"){
+		
+		if ((attacker == "Ura") || (attacker == "Lurra")){
+			return 2;
+		}else if ((attacker == "Sua") || (attacker == "Izotza") || (attacker == "Landarea")){
+			return 0.5;
+		}else {
+			return 1;
+		}
+		
+		
+	}else if (attacked == "Landarea"){
+		
+		if ((attacker == "Sua") || (attacker == "Izotza") || (attacker == "Pozoia")){
+			return 2;
+		} else if ((attacker == "Ura") || (attacker == "Landarea") || (attacker == "Lurra")){
+			return 0,5;
+		} else {
+			return 1;
+		}
+		
+		
+	}else if (attacked == "Ura"){
+		
+		if (attacker == "Landarea"){
+			return 2;
+		} else if ((attacker == "Ura") || (attacker == "Sua") || (attacker == "Izotza")){
+			return 0.5;
+		} else {
+			return 1;
+		}
+		
+		
+	}else if (attacked == "Izotza"){
+		
+		if ((attacker == "Sua") || (attacker == "Borroka")){
+			return 2;
+		} else if (attacker == "Izotza"){
+			return 0.5;
+		} else {
+			return 1;
+		}
+		
+		
+	}else if (attacked == "Borroka"){
+		
+		// Joko honetan ez da x2 edo x0.5 egiten dion motarik (Hegalaria eta Gaiztoa ez daude programatuta, zerbait jartzeko da)
+		if (attacker == "Hegalaria"){
+			return 2;
+		} else if (attacker == "Gaiztoa"){
+			return 0.5;
+		} else {
+			return 1;
+		}
+		
+		
+	}else if (attacked == "Pozoia"){
+		
+		if (attacker == "Lurra"){
+			return 2;
+		} else if ((attacker == "Borroka") || (attacker == "Landarea") || (attacker == "Pozoia")){
+			return 0.5;
+		} else {
+			return 1;
+		}
+		
+		
+	}else if (attacked == "Lurra"){
+		
+		if ((attacker == "Ura") || (attacker == "Izotza") || (attacker == "Landarea")){
+			return 2;
+		} else if (attacker == "Pozoia"){
+			return 0.5;
+		} else {
+			return 1;
+		}
+		
+	}
+}
+
+
+float calculate_damage(int attacker_pokemon_damage, string move_used_type, int attacked_pokemon_defense, string attacked_pokemon_type, float type_multiplier){
+	/*
+		Pasatako pokemon batek beste bati eraso egitean egiten dion mina kalkulatzeko funtzioa
+		
+		fnc(erasotzailearen atakea (estatistika), erasotzailearen atakearen mota,
+			erasotako pokemonaren defentsa (estatistika), erasotako pokemonaren mota)
+	*/
+	
+	// Mina-ren formula
+	int total_damage = (attacker_pokemon_damage / attacked_pokemon_defense) * type_multiplier;
+	
+	return total_damage;
+}
+
+
+int get_random_number(){
+	
+	// 1 - 3 arteko zenbaki aleatorioa itzultzen du
+	
+	int random = 1+ (rand() % 3);
+	return random;
+}
+
+string stringize(int i){
+	
+	// int i: Zenbaki oso bat string bihurtzen du
+	
+	stringstream s;
+	s << i;
+	return s.str();
+}
+
+
+
+int do_enemy_turn(struct pokemon player_pokemon, struct pokemon enemy_pokemon, int player_HP, int enemy_HP){
+	
+	int erasoa = get_random_number(); // Aurkariaren pokemonak erabiliko duen atakearen zenbakia 
+	float type_multiplier = get_type_multiplier(enemy_pokemon.move_types[erasoa], player_pokemon.type);
+	
+	// Aurkariaren erasoaren kalkulua	
+	int damage_dealt_to_player = calculate_damage(enemy_pokemon.attack, enemy_pokemon.move_types[erasoa], player_pokemon.defense, player_pokemon.type, type_multiplier);
+	
+	// Jokalariaren pokemonari erasoaren mina egin
+	player_HP = player_HP - damage_dealt_to_player;
+	
+	// Egindakoa inprimatu (Motaren efektibotasunaren arabera mezu ezberdina)
+	if (type_multiplier == 2){
+		string happened[] = {enemy_pokemon.name + "-k " + player_pokemon.moves[erasoa] + " erabili du", "Oso eraginkorra da!", player_pokemon.name + "-k " + stringize(damage_dealt_to_player) + " min jaso du"};
+		print_dialogue(happened, 3);
+	}else if (type_multiplier == 0.5){
+		string happened[] = {enemy_pokemon.name + "-k " + player_pokemon.moves[erasoa] + " erabili du", "Ez da oso eraginkorra...", player_pokemon.name + "-k " + stringize(damage_dealt_to_player) + " min jaso du"};
+		print_dialogue(happened, 3);
+	}else{ 
+		string happened[] = {enemy_pokemon.name + "-k " + player_pokemon.moves[erasoa] + " erabili du", player_pokemon.name + "-k " + stringize(damage_dealt_to_player) + " min jaso du"};
+		print_dialogue(happened, 2);
+	}
+	
+	
+	return player_HP;
+}
+
+
 bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon, string enemy_pokemon_sprite, string enemy_sprite = " "){
 	
 	system("cls");
 	fflush(stdin);
+	
+	char turn = 'e'; // p = jokalaria ; e = aurkaria
+	int player_HP = player_pokemon.max_HP; // Aldiuneko pokemonen bizitza puntuak
+	int enemy_HP = enemy_pokemon.max_HP; //   Kalkuluak flaot-ekin egin arrren, zenbaki osoetara borobilduko dira
+	
 	
 	if (enemy_sprite != " ") // Aurkaria eta gimnasio liderrarentzat
 	{
@@ -324,7 +491,23 @@ bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 		
 	}
 	
-	print_hp_bars(player_pokemon, enemy_pokemon);
+	while ((player_HP > 0) && (enemy_HP > 0))
+	{
+		print_hp_bars(player_pokemon, enemy_pokemon, player_HP, enemy_HP);	
+		
+		if (turn == 'e') // Makinaren txanda bada, egin eta hurrengo txandara pasa
+		{
+			player_HP = do_enemy_turn(player_pokemon, enemy_pokemon, player_HP, enemy_HP);
+			turn = 'p';
+			continue; // Hurrengo iteraziora pasa (Jarraitu hurrengo while-aren "bueltarekin")
+		}
+	
+		system("pause");
+		// Cositas del turno del jugador
+	
+		turn = 'e';
+	}
+	
 	
 }
 
@@ -335,6 +518,7 @@ int main()
 	// Mugimenduen motak: Normala, Sua, Ura, Landarea, Izotza, Borroka, Pozoia, Lurra
 	
 	struct pokemon player_pokemon, wild_pokemon, gym_pokemon, rival_pokemon;
+	string dialogue[9]; // Aldagai hau print_dialogue() funtzioa deitzerakoan argumentuak pasatzeko erabiliko da
 	
 	/*
 	 Jokoak 3 pokemonen kontra borrokatzeko aukera emango du:
@@ -358,7 +542,6 @@ int main()
 	wild_pokemon.attack = 1; // aldi baterakoa
 	wild_pokemon.defense = 1; // aldi baterakoa
 	wild_pokemon.max_HP = 100; // aldi baterakoa
-	wild_pokemon.HP = wild_pokemon.max_HP;
 	
 	// Gimnasio buruaren pokemonaren definizioa
 	
@@ -374,7 +557,6 @@ int main()
 	gym_pokemon.attack = 1; // aldi baterakoa
 	gym_pokemon.defense = 1; // aldi baterakoa
 	gym_pokemon.max_HP = 100; // aldi baterakoa
-	gym_pokemon.HP = gym_pokemon.max_HP;
 	
 	// Aurkariaren pokemonaren definizioa
 	
@@ -390,7 +572,6 @@ int main()
 	rival_pokemon.attack = 1; // aldi baterakoa
 	rival_pokemon.defense = 1; // aldi baterakoa
 	rival_pokemon.max_HP = 100; // aldi baterakoa
-	rival_pokemon.HP = rival_pokemon.max_HP;
 	
 	//
 	// Titulua
@@ -399,8 +580,8 @@ int main()
 	print_from_txt("banner.txt");
 	print_from_txt("test.txt");
 	
-	string leihoa_maximizatu[] = {"Leihoa maximizatzea gomendatzen da"};
-	print_dialogue(leihoa_maximizatu, 1);
+	dialogue[0] = "Leihoa maximizatzea gomendatzen da";
+	print_dialogue(dialogue, 1);
 	/*
 	printf("+                                                  +\n");
 	printf("| Leihoa maximizatzea gomendatzen da               |\n");
@@ -413,8 +594,9 @@ int main()
 	//
 	
 	print_from_txt("oak.txt");
-	string ongi_etorria[] = {"Kaixo, jokalari", "Nola duzu izena?"};
-	print_dialogue(ongi_etorria, 2, "?????????????");
+	dialogue[0] = "Kaixo, jokalari";
+	dialogue[1] = "Nola duzu izena?";
+	print_dialogue(dialogue, 2, "?????????????");
 	string player_name;
 	cin >> player_name; // scanf-rekin eginez gero arazoak ematen ditu
 	
@@ -422,8 +604,9 @@ int main()
 
 		system("cls"); // Kontsola garbitu
 		print_from_txt("oak.txt");
-		string izen_motzagoa_aukeratu[] = {"Ez dut uste zure izena horren luzea denik...", "Izen motzago bat aukeratu:"};
-		print_dialogue(izen_motzagoa_aukeratu, 2, "?????????????");	
+		dialogue[0] = "Ez dut uste zure izena horren luzea denik...";
+		dialogue[1] = "Izen motzago bat aukeratu:";
+		print_dialogue(dialogue, 2, "?????????????");	
 		cin >> player_name; // scanf-rekin eginez gero arazoak ematen ditu
 	} 
 
@@ -437,9 +620,9 @@ int main()
 	press_any_key_to_continue();
 	
 	print_from_txt("oak.txt");
-	string mezua[] = {"Kaixo " + player_name +". Oak irakaslea naiz",
-					  "Ongi etorri pokemon mundura!"};
-	print_dialogue(mezua, 2, "Oak irakaslea");
+	dialogue[0] = "Kaixo " + player_name +". Oak irakaslea naiz";
+	dialogue[1] = "Ongi etorri pokemon mundura!";
+	print_dialogue(dialogue, 2, "Oak irakaslea");
 	/*
 	printf("+                                                  +\n");
 	printf("| Oak Irakaslea nauzu, opari bat dut zuretzat...   |\n");
@@ -449,10 +632,10 @@ int main()
 
 	
 	print_from_txt("oak.txt");
-	string oparia_mezua[] = {"Pokemon bat oparituko dizut!", 
-							 "Baina, horretarako, hauetako bat", 
-							 "aukeratu behar duzu:"};
-	print_dialogue(oparia_mezua, 3, "Oak irakaslea");
+	dialogue[0] = "Pokemon bat oparituko dizut!";
+	dialogue[1] = "Baina, horretarako, hauetako bat";
+	dialogue[2] = "aukeratu behar duzu:";
+	print_dialogue(dialogue, 3, "Oak irakaslea");
 	/*
 	printf("+                                                  +\n");
 	printf("| Pokemon bat oparituko dizut!					   |\n");
@@ -482,7 +665,6 @@ int main()
 		player_pokemon.attack = 1; // aldi baterakoa
 		player_pokemon.defense = 1; // aldi baterakoa
 		player_pokemon.max_HP = 100; // aldi baterakoa
-		player_pokemon.HP = player_pokemon.max_HP;
 	}
 	// Squirtle
 	else if (chosen_pokemon == 2)
@@ -498,7 +680,6 @@ int main()
 		player_pokemon.attack = 1; // aldi baterakoa
 		player_pokemon.defense = 1; // aldi baterakoa
 		player_pokemon.max_HP = 100; // aldi baterakoa
-		player_pokemon.HP = player_pokemon.max_HP;
 	}
 	// Chikorita
 	else if (chosen_pokemon == 3)
@@ -514,17 +695,17 @@ int main()
 		player_pokemon.attack = 1; // aldi baterakoa
 		player_pokemon.defense = 1; // aldi baterakoa
 		player_pokemon.max_HP = 100; // aldi baterakoa
-		player_pokemon.HP = player_pokemon.max_HP;
 	}
 	
 	print_from_txt(player_pokemon.name + ".txt");
-	string pokemona_aukeratu_duzu[] = {player_pokemon.name + " aukeratu duzu!"};
-	print_dialogue(pokemona_aukeratu_duzu, 1, "Oak irakaslea");
+	dialogue[0] = player_pokemon.name + " aukeratu duzu!";
+	print_dialogue(dialogue, 1, "Oak irakaslea");
 	press_any_key_to_continue();
 
 	print_from_txt("oak.txt");
-	string zoaz_borrokatzera[] = {"Ederki!", "Orain, zoaz zure lagun berriarekin abenturara!"};
-	print_dialogue(zoaz_borrokatzera, 2, "Oak irakaslea");
+	dialogue[0] = "Ederki!";
+	dialogue[1] = "Orain, zoaz zure lagun berriarekin abenturara!";
+	print_dialogue(dialogue, 2, "Oak irakaslea");
 	press_any_key_to_continue();
 
 	// 

@@ -152,8 +152,9 @@ int get_rival(int menu_code){
 	while ((menu_code != 0) && (menu_code != 1) && (menu_code != 2) && (menu_code != 3))
 	{
 		string barkatu_hau_demo_bat_baino_ez_da[] =  {"Joko hau \"demo\" bat baino ez da.",
-												  	"Beraz, istorio baten ordez menu bat erabiltzen da borrokan sartzeko"}; // '\' karakterea " inprimatzeko erabiltzen da
-		print_dialogue(barkatu_hau_demo_bat_baino_ez_da, 2);
+												  	"Beraz, istorio baten ordez menu bat",
+													"erabiltzen da borrokan sartzeko"}; // '\' karakterea " inprimatzeko erabiltzen da
+		print_dialogue(barkatu_hau_demo_bat_baino_ez_da, 3);
 		
 		printf(" 0 - Jokotik irten \n");
 		printf(" 1 - Pokemon basatia (Erraza) \n");
@@ -454,7 +455,7 @@ int do_enemy_turn(struct pokemon player_pokemon, struct pokemon enemy_pokemon, i
 }
 
 
-bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon, string enemy_pokemon_sprite, string enemy_sprite = " "){
+void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon, string enemy_pokemon_sprite, string enemy_sprite = " "){
 	
 	system("cls");
 	fflush(stdin);
@@ -593,11 +594,23 @@ bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 			
 		}
 		
-		
 		// Txanda makinari pasa
 		turn = 'e';
 	}
-	// Programa hona iristen bada, jokoa bukatu da
+	// Programa hona iristen bada, borroka bukatu da
+	
+	if (enemy_HP <= 0){ // Jokalariak irabazi du
+	
+		string irabazi_duzu[] = {"Zorionak!, Konbatea irabazi duzu!", "Probatu orain aurkari zailago batekin..."};
+		print_dialogue(irabazi_duzu, 2);
+		press_any_key_to_continue();
+		
+	}else { // Makinak irabazi du
+		string galdu_duzu[] = {"GAME OVER, Konbatea galdu duzu!", "Hobetu zure estrategia hurrengorako!"};
+		print_dialogue(galdu_duzu, 2);
+		press_any_key_to_continue();
+	}
+	
 	
 }
 

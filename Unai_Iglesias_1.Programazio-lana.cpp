@@ -327,7 +327,7 @@ float get_type_multiplier(string attacker, string attacked){
 		if ((attacker == "Sua") || (attacker == "Izotza") || (attacker == "Pozoia")){
 			return 2;
 		} else if ((attacker == "Ura") || (attacker == "Landarea") || (attacker == "Lurra")){
-			return 0,5;
+			return 0.5;
 		} else {
 			return 1;
 		}
@@ -392,7 +392,7 @@ float get_type_multiplier(string attacker, string attacked){
 }
 
 
-float calculate_damage(int attacker_pokemon_damage, string move_used_type, int attacked_pokemon_defense, string attacked_pokemon_type, float type_multiplier){
+float calculate_damage(int attacker_pokemon_damage, int attacked_pokemon_defense, float type_multiplier){
 	/*
 		Pasatako pokemon batek beste bati eraso egitean egiten dion mina kalkulatzeko funtzioa
 		
@@ -401,7 +401,7 @@ float calculate_damage(int attacker_pokemon_damage, string move_used_type, int a
 	*/
 	
 	// Mina-ren formula
-	int total_damage = (attacker_pokemon_damage / attacked_pokemon_defense) * type_multiplier;
+	float total_damage = (attacker_pokemon_damage / attacked_pokemon_defense) * type_multiplier;
 	
 	return total_damage;
 }
@@ -432,20 +432,20 @@ int do_enemy_turn(struct pokemon player_pokemon, struct pokemon enemy_pokemon, i
 	float type_multiplier = get_type_multiplier(enemy_pokemon.move_types[erasoa], player_pokemon.type);
 	
 	// Aurkariaren erasoaren kalkulua	
-	int damage_dealt_to_player = calculate_damage(enemy_pokemon.attack, enemy_pokemon.move_types[erasoa], player_pokemon.defense, player_pokemon.type, type_multiplier);
+	int damage_dealt_to_player = calculate_damage(enemy_pokemon.attack, player_pokemon.defense, type_multiplier);
 	
 	// Jokalariaren pokemonari erasoaren mina egin
 	player_HP = player_HP - damage_dealt_to_player;
 	
 	// Egindakoa inprimatu (Motaren efektibotasunaren arabera mezu ezberdina)
 	if (type_multiplier == 2){
-		string happened[] = {enemy_pokemon.name + "-k " + player_pokemon.moves[erasoa] + " erabili du", "Oso eraginkorra da!", player_pokemon.name + "-k " + stringize(damage_dealt_to_player) + " min jaso du"};
+		string happened[] = {enemy_pokemon.name + "-k " + enemy_pokemon.moves[erasoa] + " erabili du", "Oso eraginkorra da!", player_pokemon.name + "-k " + stringize(damage_dealt_to_player) + " HP galdu ditu"};
 		print_dialogue(happened, 3);
 	}else if (type_multiplier == 0.5){
-		string happened[] = {enemy_pokemon.name + "-k " + player_pokemon.moves[erasoa] + " erabili du", "Ez da oso eraginkorra...", player_pokemon.name + "-k " + stringize(damage_dealt_to_player) + " min jaso du"};
+		string happened[] = {enemy_pokemon.name + "-k " + enemy_pokemon.moves[erasoa] + " erabili du", "Ez da oso eraginkorra...", player_pokemon.name + "-k " + stringize(damage_dealt_to_player) + " HP galdu ditu"};
 		print_dialogue(happened, 3);
 	}else{ 
-		string happened[] = {enemy_pokemon.name + "-k " + player_pokemon.moves[erasoa] + " erabili du", player_pokemon.name + "-k " + stringize(damage_dealt_to_player) + " min jaso du"};
+		string happened[] = {enemy_pokemon.name + "-k " + enemy_pokemon.moves[erasoa] + " erabili du", player_pokemon.name + "-k " + stringize(damage_dealt_to_player) + " HP galdu ditu"};
 		print_dialogue(happened, 2);
 	}
 	
@@ -459,7 +459,7 @@ bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 	system("cls");
 	fflush(stdin);
 	
-	char turn = 'e'; // p = jokalaria ; e = aurkaria
+	char turn = 'p'; // p = jokalaria ; e = aurkaria
 	int player_HP = player_pokemon.max_HP; // Aldiuneko pokemonen bizitza puntuak
 	int enemy_HP = enemy_pokemon.max_HP; //   Kalkuluak flaot-ekin egin arrren, zenbaki osoetara borobilduko dira
 	
@@ -480,6 +480,7 @@ bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 		print_dialogue(enemy_pokemon_introduction, 1);
 		
 		press_any_key_to_continue();
+		system("cls");
 		
 	} else // pokemon basatia
 	{
@@ -488,8 +489,11 @@ bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 		print_dialogue(enemy_introduction, 1);
 		
 		press_any_key_to_continue();
+		system("cls");
 		
 	}
+	
+	// Borrokaren bukle nagusia
 	
 	while ((player_HP > 0) && (enemy_HP > 0))
 	{
@@ -498,16 +502,102 @@ bool pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 		if (turn == 'e') // Makinaren txanda bada, egin eta hurrengo txandara pasa
 		{
 			player_HP = do_enemy_turn(player_pokemon, enemy_pokemon, player_HP, enemy_HP);
+			print_hp_bars(player_pokemon, enemy_pokemon, player_HP, enemy_HP);
+			press_any_key_to_continue();
 			turn = 'p';
 			continue; // Hurrengo iteraziora pasa (Jarraitu hurrengo while-aren "bueltarekin")
 		}
 	
-		system("pause");
-		// Cositas del turno del jugador
+		// Jokalariaren txanda
 	
+		int player_choice = -1; // Balio lehenetsia
+		int potion_amount = 2;
+
+	
+		do {
+
+			string zure_txanda[] = {"Jokalariaren txanda:"};
+			print_dialogue(zure_txanda, 1);
+
+			printf(" 0 - Amore eman\n");
+			
+			for(int i = 1; i <= 3; i++){
+				printf(" %d - %s (%s)\n", i, player_pokemon.moves[i].c_str(), player_pokemon.move_types[i].c_str());
+			}
+			printf(" 4 - Edabe bat erabili (20 HP sendatu) (%d geratzen zaizkizu)\n", potion_amount);
+			
+			printf("\n");
+			
+			printf(" Zer egin behar du %s-ek ? ", player_pokemon.name.c_str());
+			
+			scanf(" %d", &player_choice);
+			fflush(stdin);
+			system("cls");
+			
+		} while ((player_choice != 0) && (player_choice != 1) && (player_choice != 2) && (player_choice != 3));
+
+		print_hp_bars(player_pokemon, enemy_pokemon, player_HP, enemy_HP);
+
+		if (player_choice == 0){ // Borroka galdu
+			player_HP = 0;
+			break;
+		}
+		
+		else if (player_choice == 4){ // Edabe (pocion) bat erabili
+		
+			if (potion_amount == 0){
+				// Edaberik ez, esan eta ez egin ezer (Jokalariaren txanda errepikatu)
+				printf("Ez duzu edaberik...");
+				press_any_key_to_continue();
+				continue;
+			}
+		
+			// Edabeak geratzen dira
+		
+			potion_amount --;
+			player_HP = player_HP + 20;
+			
+			// Edabeak HP maximoa baino gehiago sendatzen ez duela ziurtatzeko
+			if (player_HP > player_pokemon.max_HP){
+				player_HP = player_pokemon.max_HP;
+			}
+			
+			string sendatu_da[] = {" " + player_pokemon.name + "-ek 20 HP berreskuratu ditu!"};
+			print_dialogue(sendatu_da, 1);
+		}
+		
+		else{ // Erasotu (Zati hau makinaren txandaren funtzioa "do_enemy_turn()" bezalakoa da)
+		
+			int erasoa = player_choice;
+			float type_multiplier = get_type_multiplier(player_pokemon.move_types[erasoa], enemy_pokemon.type);
+			
+			int damage_dealt_to_enemy = calculate_damage(player_pokemon.attack, enemy_pokemon.defense, type_multiplier);
+			
+			// Mina egin
+			enemy_HP = enemy_HP - damage_dealt_to_enemy;
+			
+			// Egindakoa inprimatu (Motaren efektibotasunaren arabera mezu ezberdina)
+			if (type_multiplier == 2){
+				string done[] = {player_pokemon.name + "-k " + player_pokemon.moves[erasoa] + " erabili du", "Oso eraginkorra da!", enemy_pokemon.name + "-k " + stringize(damage_dealt_to_enemy) + " HP galdu ditu"};
+				print_dialogue(done, 3);
+			}else if (type_multiplier == 0.5){
+				string done[] = {player_pokemon.name + "-k " + player_pokemon.moves[erasoa] + " erabili du", "Ez da oso eraginkorra...", enemy_pokemon.name + "-k " + stringize(damage_dealt_to_enemy) + " HP galdu ditu"};
+				print_dialogue(done, 3);
+			}else{ 
+				string done[] = {player_pokemon.name + "-k " + player_pokemon.moves[erasoa] + " erabili du", enemy_pokemon.name + "-k " + stringize(damage_dealt_to_enemy) + " HP galdu ditu"};
+				print_dialogue(done, 2);
+			}
+			
+			print_hp_bars(player_pokemon, enemy_pokemon, player_HP, enemy_HP);
+			press_any_key_to_continue();
+			
+		}
+		
+		
+		// Txanda makinari pasa
 		turn = 'e';
 	}
-	
+	// Programa hona iristen bada, jokoa bukatu da
 	
 }
 

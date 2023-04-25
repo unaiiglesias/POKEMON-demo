@@ -472,6 +472,7 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 	char turn = 'p'; // p = jokalaria ; e = aurkaria
 	int player_HP = player_pokemon.max_HP; // Aldiuneko pokemonen bizitza puntuak
 	int enemy_HP = enemy_pokemon.max_HP; //   Kalkuluak flaot-ekin egin arrren, zenbaki osoetara borobilduko dira
+	int potion_amount = 2;
 	
 	
 	if (enemy_sprite != " ") // Aurkaria eta gimnasio liderrarentzat
@@ -521,7 +522,6 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 		// Jokalariaren txanda
 	
 		int player_choice = -1; // Balio lehenetsia
-		int potion_amount = 2;
 
 	
 		do {
@@ -544,7 +544,7 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 			fflush(stdin);
 			system("cls");
 			
-		} while ((player_choice != 0) && (player_choice != 1) && (player_choice != 2) && (player_choice != 3));
+		} while ((player_choice != 0) && (player_choice != 1) && (player_choice != 2) && (player_choice != 3) && (player_choice != 4));
 
 		print_hp_bars(player_pokemon, enemy_pokemon, player_HP, enemy_HP);
 
@@ -557,14 +557,14 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 		
 			if (potion_amount == 0){
 				// Edaberik ez, esan eta ez egin ezer (Jokalariaren txanda errepikatu)
-				printf("Ez duzu edaberik...");
+				printf("Ez duzu edaberik...\n");
 				press_any_key_to_continue();
 				continue;
 			}
 		
 			// Edabeak geratzen dira
 		
-			potion_amount --;
+			potion_amount = potion_amount - 1;
 			player_HP = player_HP + 20;
 			
 			// Edabeak HP maximoa baino gehiago sendatzen ez duela ziurtatzeko
@@ -574,6 +574,7 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 			
 			string sendatu_da[] = {" " + player_pokemon.name + "-ek 20 HP berreskuratu ditu!"};
 			print_dialogue(sendatu_da, 1);
+			press_any_key_to_continue();
 		}
 		
 		else{ // Erasotu (Zati hau makinaren txandaren funtzioa "do_enemy_turn()" bezalakoa da)
@@ -651,8 +652,8 @@ int main()
 	wild_pokemon.move_types[1] = "Normala";
 	wild_pokemon.move_types[2] = "Ura";
 	wild_pokemon.move_types[3] = "Lurra";
-	wild_pokemon.attack = 30; // aldi baterakoa
-	wild_pokemon.defense = 12; // aldi baterakoa
+	wild_pokemon.attack = 20; // aldi baterakoa
+	wild_pokemon.defense = 8; // aldi baterakoa
 	wild_pokemon.max_HP = 70; // aldi baterakoa
 	
 	// Gimnasio buruaren pokemonaren definizioa (Normala)
@@ -666,7 +667,7 @@ int main()
 	gym_pokemon.move_types[1] = "Normala";
 	gym_pokemon.move_types[2] = "Landarea";
 	gym_pokemon.move_types[3] = "Pozoia";
-	gym_pokemon.attack = 40; // aldi baterakoa
+	gym_pokemon.attack = 20; // aldi baterakoa
 	gym_pokemon.defense = 12; // aldi baterakoa
 	gym_pokemon.max_HP = 80; // aldi baterakoa
 	
@@ -681,8 +682,8 @@ int main()
 	rival_pokemon.move_types[1] = "Borroka";
 	rival_pokemon.move_types[2] = "Normala";
 	rival_pokemon.move_types[3] = "Landarea";
-	rival_pokemon.attack = 50; // aldi baterakoa
-	rival_pokemon.defense = 20; // aldi baterakoa
+	rival_pokemon.attack = 30; // aldi baterakoa
+	rival_pokemon.defense = 15; // aldi baterakoa
 	rival_pokemon.max_HP = 100; // aldi baterakoa
 	
 	//
@@ -774,8 +775,8 @@ int main()
 		player_pokemon.move_types[1] = "Normala";
 		player_pokemon.move_types[2] = "Sua";
 		player_pokemon.move_types[3] = "Borroka";
-		player_pokemon.attack = 65; // aldi baterakoa
-		player_pokemon.defense = 12; // aldi baterakoa
+		player_pokemon.attack = 45; // aldi baterakoa
+		player_pokemon.defense = 8; // aldi baterakoa
 		player_pokemon.max_HP = 50; // aldi baterakoa
 	}
 	// Squirtle
@@ -789,8 +790,8 @@ int main()
 		player_pokemon.move_types[1] = "Normala";
 		player_pokemon.move_types[2] = "Ura";
 		player_pokemon.move_types[3] = "Izotza";
-		player_pokemon.attack = 50; // aldi baterakoa
-		player_pokemon.defense = 20; // aldi baterakoa
+		player_pokemon.attack = 35; // aldi baterakoa
+		player_pokemon.defense = 12; // aldi baterakoa
 		player_pokemon.max_HP = 60; // aldi baterakoa
 	}
 	// Chikorita
@@ -804,8 +805,8 @@ int main()
 		player_pokemon.move_types[1] = "Normala";
 		player_pokemon.move_types[2] = "Landarea";
 		player_pokemon.move_types[3] = "Pozoia";
-		player_pokemon.attack = 40; // aldi baterakoa
-		player_pokemon.defense = 30; // aldi baterakoa
+		player_pokemon.attack = 20; // aldi baterakoa
+		player_pokemon.defense = 22; // aldi baterakoa
 		player_pokemon.max_HP = 80; // aldi baterakoa
 	}
 	

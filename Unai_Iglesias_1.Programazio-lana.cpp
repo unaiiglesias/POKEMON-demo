@@ -574,6 +574,7 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 			
 			string sendatu_da[] = {" " + player_pokemon.name + "-ek 20 HP berreskuratu ditu!"};
 			print_dialogue(sendatu_da, 1);
+			print_hp_bars(player_pokemon, enemy_pokemon, player_HP, enemy_HP);
 			press_any_key_to_continue();
 		}
 		

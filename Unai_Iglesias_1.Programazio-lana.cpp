@@ -215,6 +215,15 @@ void print_hp_bars(struct pokemon player_pokemon, struct pokemon enemy_pokemon, 
 	
 	int player_max_hp = player_pokemon.max_HP;
 	
+	// HP-ak negatiboak badira...
+	
+	if (player_HP < 0){
+		player_HP = 0;
+	}
+	if (enemy_HP < 0){
+		enemy_HP = 0;
+	}
+	
 	// 0-10 tartekoa, behar diren # kopurua (Gutxi gora behera, markadore hau ez da guztiz zehatza izango)
 	int player_HP_percentage = (player_HP / player_max_hp) * 10;
 	

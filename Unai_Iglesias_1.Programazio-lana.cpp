@@ -402,7 +402,7 @@ float calculate_damage(int attacker_pokemon_damage, int attacked_pokemon_defense
 	*/
 	
 	// Mina-ren formula
-	float total_damage = (attacker_pokemon_damage / attacked_pokemon_defense) * type_multiplier;
+	float total_damage = (attacker_pokemon_damage - attacked_pokemon_defense) * type_multiplier;
 	
 	return total_damage;
 }
@@ -632,7 +632,7 @@ int main()
 	
 	/* Oharra: pokemonen mugimenduak (erasoak) definitzean banaka egin behar da*/
 	
-	// Pokemon basatia
+	// Pokemon basatia (Erraza)
 	
 	wild_pokemon.name = "Mudkip";
 	wild_pokemon.type = "Ura";
@@ -642,11 +642,11 @@ int main()
 	wild_pokemon.move_types[1] = "Normala";
 	wild_pokemon.move_types[2] = "Ura";
 	wild_pokemon.move_types[3] = "Lurra";
-	wild_pokemon.attack = 1; // aldi baterakoa
-	wild_pokemon.defense = 1; // aldi baterakoa
-	wild_pokemon.max_HP = 100; // aldi baterakoa
+	wild_pokemon.attack = 30; // aldi baterakoa
+	wild_pokemon.defense = 12; // aldi baterakoa
+	wild_pokemon.max_HP = 70; // aldi baterakoa
 	
-	// Gimnasio buruaren pokemonaren definizioa
+	// Gimnasio buruaren pokemonaren definizioa (Normala)
 	
 	gym_pokemon.name = "Sunflora";
 	gym_pokemon.type = "Landarea";
@@ -657,11 +657,11 @@ int main()
 	gym_pokemon.move_types[1] = "Normala";
 	gym_pokemon.move_types[2] = "Landarea";
 	gym_pokemon.move_types[3] = "Pozoia";
-	gym_pokemon.attack = 1; // aldi baterakoa
-	gym_pokemon.defense = 1; // aldi baterakoa
-	gym_pokemon.max_HP = 100; // aldi baterakoa
+	gym_pokemon.attack = 40; // aldi baterakoa
+	gym_pokemon.defense = 12; // aldi baterakoa
+	gym_pokemon.max_HP = 80; // aldi baterakoa
 	
-	// Aurkariaren pokemonaren definizioa
+	// Aurkariaren pokemonaren definizioa (Zaila)
 	
 	rival_pokemon.name = "Virizion";
 	rival_pokemon.type = "Landarea";
@@ -672,8 +672,8 @@ int main()
 	rival_pokemon.move_types[1] = "Borroka";
 	rival_pokemon.move_types[2] = "Normala";
 	rival_pokemon.move_types[3] = "Landarea";
-	rival_pokemon.attack = 1; // aldi baterakoa
-	rival_pokemon.defense = 1; // aldi baterakoa
+	rival_pokemon.attack = 50; // aldi baterakoa
+	rival_pokemon.defense = 20; // aldi baterakoa
 	rival_pokemon.max_HP = 100; // aldi baterakoa
 	
 	//
@@ -765,9 +765,9 @@ int main()
 		player_pokemon.move_types[1] = "Normala";
 		player_pokemon.move_types[2] = "Sua";
 		player_pokemon.move_types[3] = "Borroka";
-		player_pokemon.attack = 1; // aldi baterakoa
-		player_pokemon.defense = 1; // aldi baterakoa
-		player_pokemon.max_HP = 100; // aldi baterakoa
+		player_pokemon.attack = 65; // aldi baterakoa
+		player_pokemon.defense = 12; // aldi baterakoa
+		player_pokemon.max_HP = 50; // aldi baterakoa
 	}
 	// Squirtle
 	else if (chosen_pokemon == 2)
@@ -780,9 +780,9 @@ int main()
 		player_pokemon.move_types[1] = "Normala";
 		player_pokemon.move_types[2] = "Ura";
 		player_pokemon.move_types[3] = "Izotza";
-		player_pokemon.attack = 1; // aldi baterakoa
-		player_pokemon.defense = 1; // aldi baterakoa
-		player_pokemon.max_HP = 100; // aldi baterakoa
+		player_pokemon.attack = 50; // aldi baterakoa
+		player_pokemon.defense = 20; // aldi baterakoa
+		player_pokemon.max_HP = 60; // aldi baterakoa
 	}
 	// Chikorita
 	else if (chosen_pokemon == 3)
@@ -795,9 +795,9 @@ int main()
 		player_pokemon.move_types[1] = "Normala";
 		player_pokemon.move_types[2] = "Landarea";
 		player_pokemon.move_types[3] = "Pozoia";
-		player_pokemon.attack = 1; // aldi baterakoa
-		player_pokemon.defense = 1; // aldi baterakoa
-		player_pokemon.max_HP = 100; // aldi baterakoa
+		player_pokemon.attack = 40; // aldi baterakoa
+		player_pokemon.defense = 30; // aldi baterakoa
+		player_pokemon.max_HP = 80; // aldi baterakoa
 	}
 	
 	print_from_txt(player_pokemon.name + ".txt");

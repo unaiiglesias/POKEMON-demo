@@ -20,15 +20,21 @@ struct pokemon{
 int print_from_txt(string file_name)
 {
 	/* .txt fitxategi baten izena pasatuz gero,
-	   honen edukiak inprimatzen dituen funtzioa */
+	   honen edukiak inprimatzen dituen funtzioa.
+	   
+	   [Oharra: .txt fitxategia /assets karpetan gordeta egon behar da]
+	   
+	   printt_from_txt("fitxategiaren_izena.txt")
+	*/
 	
-	// Jaso, txt fitxategiaren izena
+	
+
 	
 	// Beharrezko aldagaiak deklaratu
 	int c;
 	FILE *file;
 	
-	// Jasotako izenari hasieran "assets\\" gehitu,fitxategiaren benetako kokalekua lortzeko ("assets" karpetan)
+	// Jasotako izenari hasieran "assets\\" gehitu, fitxategiaren benetako kokalekua lortzeko ("assets" karpetan)
 	string file_path = "assets\\";
 	file_path = file_path + file_name;
 	
@@ -53,21 +59,34 @@ int print_from_txt(string file_name)
 
 void print_dialogue(string* text, int line_amount, string talker = "Narratzailea"){
 
-	
-	/* Funtzio hau string bat jasotzen du eta "dialogo" moduan (karratuarekin) inprimatzen du,
+	/* 
+		Funtzio hau string bat jasotzen du eta "dialogo" moduan (markoarekin) inprimatzen du,
 		dialogoaren lerro kopurua ere pasa behar zaio.
 		
 		Aukerako aldagaia: hizlaria
 	
-	 Hainbat lerroko dialogo bat sortzeko array batean pasa behar dira lerro bakoitza
-	 OHARRA: array bat pasatzean errorerik ez jasotzeko, array-a pasa baino lehen deklaratu behar da*/
-
+	 	Hainbat lerroko dialogo bat sortzeko array batean pasa behar dira lerro bakoitza
+	 	OHARRA: array bat pasatzean errorerik ez jasotzeko, array-a pasa baino lehen deklaratu behar da
+	 	
+	 	string mezua[] = {"Mezuaren", "Lerro", "bakoitza"};
+	 	print_dialogue(mezua, 3); (mezua, mezuaren_lerro-kopurua)
+	*/
 	
-		// Zein pertsonai hitz egiten ari da (Narratzailea ez bada)
+	/*
+		ADIBIDEA
+		printf("+                                                  +\n");
+		printf("| Kaixo, jokalari                                  |\n");
+		printf("| Ongi etorri Pokemon mundura!                     |\n");
+		printf("| Nola duzu izena?                                 |\n");
+		printf("+                                                  +\n");
+	*/
+
+	// Zein pertsonai hitz egiten ari den adierazi (Narratzailea ez bada)
 	if (talker != "Narratzailea"){
 		printf("--[ %s ]--\n", talker.c_str());	
 	}
 	
+	// Markoaren hasierako zatia
 	printf("+                                                  +\n");
 	
 	int max_line_length = 48;
@@ -98,10 +117,10 @@ void print_dialogue(string* text, int line_amount, string talker = "Narratzailea
 
 void press_any_key_to_continue(){
 	
-	/* Funtzio hau botoi bat sakatzea eskatzen du, irakurtzeko pausa balitz bezala.*/	
+	/* Funtzio hau eneter-a sakatzea eskatzen du, irakurtzeko pausa balitz bezala.*/	
 	
 	printf("Enter sakatu jarraitzeko......");
-	getchar();
+	getchar(); // scanf balitz bezala baino motzagoa
 	fflush(stdin);
 	fflush(stdout);
 	// Kontsola garbitzeko
@@ -112,6 +131,9 @@ void press_any_key_to_continue(){
 int choose_pokemon(){
 	
 	/*Behin bakarrik dehituko den funtzioa, jokalariari pokemona aukeratzeko eskatzeko*/
+	
+	
+	// 3 pokemonak aurkeztu
 	
     print_from_txt("Chimchar.txt");
     string initial_1_desc[] = {"Chimchar, suz-ko pokemona"};
@@ -130,6 +152,7 @@ int choose_pokemon(){
     
     int user_input = 0;
     
+    // Zer pokemon nahi den galdetu
     do
 	{
     print_from_txt("oak.txt");
@@ -143,6 +166,7 @@ int choose_pokemon(){
 	system("cls");
 	} while ((user_input != 1) && (user_input != 2) && (user_input != 3));
     
+    // Aukera itzuli
 	return user_input;
 	
 }
@@ -612,12 +636,12 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 	
 	if (enemy_HP <= 0){ // Jokalariak irabazi du
 	
-		string irabazi_duzu[] = {"Zorionak!, Konbatea irabazi duzu!", "Probatu orain aurkari zailago batekin..."};
+		string irabazi_duzu[] = {"YOU WIN!, Konbatea irabazi duzu!", "Probatu orain aurkari zailago batekin..."};
 		print_dialogue(irabazi_duzu, 2);
 		press_any_key_to_continue();
 		
 	}else { // Makinak irabazi du
-		string galdu_duzu[] = {"GAME OVER, Konbatea galdu duzu!", "Hobetu zure estrategia hurrengorako!"};
+		string galdu_duzu[] = {"GAME OVER, Konbatea galdu duzu...", "Hobetu zure estrategia hurrengorako!"};
 		print_dialogue(galdu_duzu, 2);
 		press_any_key_to_continue();
 	}
@@ -643,7 +667,7 @@ int main()
 	
 	/* Oharra: pokemonen mugimenduak (erasoak) definitzean banaka egin behar da*/
 	
-	// Pokemon basatia (Erraza)
+	// Pokemon basatia (Zailtasuna : Erraza)
 	
 	wild_pokemon.name = "Mudkip";
 	wild_pokemon.type = "Ura";
@@ -657,7 +681,7 @@ int main()
 	wild_pokemon.defense = 8; // aldi baterakoa
 	wild_pokemon.max_HP = 70; // aldi baterakoa
 	
-	// Gimnasio buruaren pokemonaren definizioa (Normala)
+	// Gimnasio buruaren pokemonaren definizioa (Zailtasuna : Normala)
 	
 	gym_pokemon.name = "Sunflora";
 	gym_pokemon.type = "Landarea";
@@ -672,7 +696,7 @@ int main()
 	gym_pokemon.defense = 12; // aldi baterakoa
 	gym_pokemon.max_HP = 80; // aldi baterakoa
 	
-	// Aurkariaren pokemonaren definizioa (Zaila)
+	// Aurkariaren pokemonaren definizioa (Zailtasuna : Zaila)
 	
 	rival_pokemon.name = "Virizion";
 	rival_pokemon.type = "Landarea";
@@ -688,15 +712,16 @@ int main()
 	rival_pokemon.max_HP = 100; // aldi baterakoa
 	
 	//
-	// Titulua
+	// Titulua	
 	//
 	
-	print_from_txt("banner.txt");
-	print_from_txt("test.txt");
+	print_from_txt("header.txt");
+	print_from_txt("credits.txt");
 	
 	dialogue[0] = "Leihoa maximizatzea gomendatzen da";
 	print_dialogue(dialogue, 1);
 	/*
+	ADIBIDEA:
 	printf("+                                                  +\n");
 	printf("| Leihoa maximizatzea gomendatzen da               |\n");
 	printf("+                                                  +\n");
@@ -724,13 +749,6 @@ int main()
 		cin >> player_name; // scanf-rekin eginez gero arazoak ematen ditu
 	} 
 
-	/*
-	printf("+                                                  +\n");
-	printf("| Kaixo, jokalari                                  |\n");
-	printf("| Ongi etorri Pokemon mundura!                     |\n");
-	printf("| Nola duzu izena?                                 |\n");
-	printf("+                                                  +\n");
-	*/
 	press_any_key_to_continue();
 	
 	print_from_txt("oak.txt");
@@ -807,7 +825,7 @@ int main()
 		player_pokemon.move_types[2] = "Landarea";
 		player_pokemon.move_types[3] = "Pozoia";
 		player_pokemon.attack = 20; // aldi baterakoa
-		player_pokemon.defense = 22; // aldi baterakoa
+		player_pokemon.defense = 18; // aldi baterakoa
 		player_pokemon.max_HP = 80; // aldi baterakoa
 	}
 	

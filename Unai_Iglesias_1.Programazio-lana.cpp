@@ -416,7 +416,7 @@ float get_type_multiplier(string attacker, string attacked){
 		
 		if ((attacker == "Ura") || (attacker == "Izotza") || (attacker == "Landarea")){
 			return 2;
-		} else if (attacker == "Pozoia"){
+		} else if ((attacker == "Pozoia") || (attacker == "Sua")){
 			return 0.5;
 		} else {
 			return 1;
@@ -669,13 +669,13 @@ int main()
 	
 	// Pokemon basatia (Zailtasuna : Erraza)
 	
-	wild_pokemon.name = "Mudkip";
-	wild_pokemon.type = "Ura";
+	wild_pokemon.name = "Dugtrio";
+	wild_pokemon.type = "Lurra";
 	wild_pokemon.moves[1] = "Harramazkada";
-	wild_pokemon.moves[2] = "Ur pistola";
+	wild_pokemon.moves[2] = "Plakaketa";
 	wild_pokemon.moves[3] = "Lurrikara";
 	wild_pokemon.move_types[1] = "Normala";
-	wild_pokemon.move_types[2] = "Ura";
+	wild_pokemon.move_types[2] = "Normala";
 	wild_pokemon.move_types[3] = "Lurra";
 	wild_pokemon.attack = 20; // aldi baterakoa
 	wild_pokemon.defense = 8; // aldi baterakoa
@@ -683,15 +683,15 @@ int main()
 	
 	// Gimnasio buruaren pokemonaren definizioa (Zailtasuna : Normala)
 	
-	gym_pokemon.name = "Sunflora";
-	gym_pokemon.type = "Landarea";
+	gym_pokemon.name = "Komala";
+	gym_pokemon.type = "Normala";
 	gym_pokemon.master = "Brais";
 	gym_pokemon.moves[1] = "Plakaketa";
-	gym_pokemon.moves[2] = "Eguzki izpia";
-	gym_pokemon.moves[3] = "Lokatz uhina";
+	gym_pokemon.moves[2] = "Lurrikara";
+	gym_pokemon.moves[3] = "Mazo-kolpea";
 	gym_pokemon.move_types[1] = "Normala";
-	gym_pokemon.move_types[2] = "Landarea";
-	gym_pokemon.move_types[3] = "Pozoia";
+	gym_pokemon.move_types[2] = "Lurra";
+	gym_pokemon.move_types[3] = "Landarea";
 	gym_pokemon.attack = 20; // aldi baterakoa
 	gym_pokemon.defense = 12; // aldi baterakoa
 	gym_pokemon.max_HP = 80; // aldi baterakoa
@@ -794,7 +794,7 @@ int main()
 		player_pokemon.move_types[1] = "Normala";
 		player_pokemon.move_types[2] = "Sua";
 		player_pokemon.move_types[3] = "Borroka";
-		player_pokemon.attack = 45; // aldi baterakoa
+		player_pokemon.attack = 40; // aldi baterakoa
 		player_pokemon.defense = 8; // aldi baterakoa
 		player_pokemon.max_HP = 50; // aldi baterakoa
 	}
@@ -809,7 +809,7 @@ int main()
 		player_pokemon.move_types[1] = "Normala";
 		player_pokemon.move_types[2] = "Ura";
 		player_pokemon.move_types[3] = "Izotza";
-		player_pokemon.attack = 35; // aldi baterakoa
+		player_pokemon.attack = 30; // aldi baterakoa
 		player_pokemon.defense = 12; // aldi baterakoa
 		player_pokemon.max_HP = 60; // aldi baterakoa
 	}
@@ -874,7 +874,7 @@ int main()
 			case 1: pokemon_combat(player_pokemon, wild_pokemon, "wild.txt");
 				// Wild pokemon
 					break;
-			case 2: pokemon_combat(player_pokemon, gym_pokemon, "sunflora.txt", "gym_leader.txt");
+			case 2: pokemon_combat(player_pokemon, gym_pokemon, "komala.txt", "gym_leader.txt");
 				// Gym leader pokemon
 					break;
 			case 3: pokemon_combat(player_pokemon, rival_pokemon,"virizon.txt", "rival.txt");

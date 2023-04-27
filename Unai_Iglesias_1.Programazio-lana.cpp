@@ -451,7 +451,7 @@ int get_random_number(){
 
 string stringize(int i){
 	
-	// int i: Zenbaki oso bat string bihurtzen du
+	// Pasatako <enbaki oso bat (i) string bihurtzen du
 	
 	stringstream s;
 	s << i;
@@ -490,12 +490,13 @@ int do_enemy_turn(struct pokemon player_pokemon, struct pokemon enemy_pokemon, i
 
 void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon, string enemy_pokemon_sprite, string enemy_sprite = " "){
 	
+	// Badaezpada
 	system("cls");
 	fflush(stdin);
 	
 	char turn = 'p'; // p = jokalaria ; e = aurkaria
 	int player_HP = player_pokemon.max_HP; // Aldiuneko pokemonen bizitza puntuak
-	int enemy_HP = enemy_pokemon.max_HP; //   Kalkuluak flaot-ekin egin arrren, zenbaki osoetara borobilduko dira
+	int enemy_HP = enemy_pokemon.max_HP;   // Kalkuluak flaot-ekin egin arrren, zenbaki osoetara borobilduko dira
 	int potion_amount = 2;
 	
 	
@@ -661,11 +662,10 @@ int main()
 	/*
 	 Jokoak 3 pokemonen kontra borrokatzeko aukera emango du:
 	 Pokemon basatia, gimnasio buruaren pokemona eta gure (istoriako, ez badago progrmatuta ere) aurkariaren  pokemona 
-	 */
+	*/
 	
-	// Haien kontra burrokatuko dugun pokemonen definizioa
+	// Haien kontra borrokatuko dugun pokemonen definizioa
 	
-	/* Oharra: pokemonen mugimenduak (erasoak) definitzean banaka egin behar da*/
 	
 	// Pokemon basatia (Zailtasuna : Erraza)
 	
@@ -677,9 +677,9 @@ int main()
 	wild_pokemon.move_types[1] = "Normala";
 	wild_pokemon.move_types[2] = "Normala";
 	wild_pokemon.move_types[3] = "Lurra";
-	wild_pokemon.attack = 20; // aldi baterakoa
-	wild_pokemon.defense = 8; // aldi baterakoa
-	wild_pokemon.max_HP = 70; // aldi baterakoa
+	wild_pokemon.attack = 20;
+	wild_pokemon.defense = 8;
+	wild_pokemon.max_HP = 70;
 	
 	// Gimnasio buruaren pokemonaren definizioa (Zailtasuna : Normala)
 	
@@ -692,9 +692,9 @@ int main()
 	gym_pokemon.move_types[1] = "Normala";
 	gym_pokemon.move_types[2] = "Lurra";
 	gym_pokemon.move_types[3] = "Landarea";
-	gym_pokemon.attack = 20; // aldi baterakoa
-	gym_pokemon.defense = 12; // aldi baterakoa
-	gym_pokemon.max_HP = 80; // aldi baterakoa
+	gym_pokemon.attack = 20;
+	gym_pokemon.defense = 12;
+	gym_pokemon.max_HP = 80;
 	
 	// Aurkariaren pokemonaren definizioa (Zailtasuna : Zaila)
 	
@@ -707,9 +707,9 @@ int main()
 	rival_pokemon.move_types[1] = "Borroka";
 	rival_pokemon.move_types[2] = "Normala";
 	rival_pokemon.move_types[3] = "Landarea";
-	rival_pokemon.attack = 30; // aldi baterakoa
-	rival_pokemon.defense = 15; // aldi baterakoa
-	rival_pokemon.max_HP = 100; // aldi baterakoa
+	rival_pokemon.attack = 30;
+	rival_pokemon.defense = 15;
+	rival_pokemon.max_HP = 100;
 	
 	//
 	// Titulua	
@@ -720,12 +720,6 @@ int main()
 	
 	dialogue[0] = "Leihoa maximizatzea gomendatzen da";
 	print_dialogue(dialogue, 1);
-	/*
-	ADIBIDEA:
-	printf("+                                                  +\n");
-	printf("| Leihoa maximizatzea gomendatzen da               |\n");
-	printf("+                                                  +\n");
-	*/
 	press_any_key_to_continue();
 	
 	//
@@ -741,7 +735,7 @@ int main()
 	
 	while (player_name.length() > 20){ // Jokalariaren izen agehienez 20 karakterekoa izan dadin
 
-		system("cls"); // Kontsola garbitu
+		system("cls"); // Kontsola garbitu iterazio bakoitzean
 		print_from_txt("oak.txt");
 		dialogue[0] = "Ez dut uste zure izena horren luzea denik...";
 		dialogue[1] = "Izen motzago bat aukeratu:";
@@ -755,11 +749,6 @@ int main()
 	dialogue[0] = "Kaixo " + player_name +". Oak irakaslea naiz";
 	dialogue[1] = "Ongi etorri pokemon mundura!";
 	print_dialogue(dialogue, 2, "Oak irakaslea");
-	/*
-	printf("+                                                  +\n");
-	printf("| Oak Irakaslea nauzu, opari bat dut zuretzat...   |\n");
-	printf("+                                                  +\n");
-	*/
 	press_any_key_to_continue();
 
 	
@@ -768,13 +757,6 @@ int main()
 	dialogue[1] = "Baina, horretarako, hauetako bat";
 	dialogue[2] = "aukeratu behar duzu:";
 	print_dialogue(dialogue, 3, "Oak irakaslea");
-	/*
-	printf("+                                                  +\n");
-	printf("| Pokemon bat oparituko dizut!					   |\n");
-	printf("| Baina, horretarako, hauetako bat				   |\n");
-	printf("| aukeratu behar duzu: 							   |\n");
-	printf("+                                                  +\n");
-	*/
 	press_any_key_to_continue();
 	
 	//
@@ -794,9 +776,9 @@ int main()
 		player_pokemon.move_types[1] = "Normala";
 		player_pokemon.move_types[2] = "Sua";
 		player_pokemon.move_types[3] = "Borroka";
-		player_pokemon.attack = 40; // aldi baterakoa
-		player_pokemon.defense = 8; // aldi baterakoa
-		player_pokemon.max_HP = 50; // aldi baterakoa
+		player_pokemon.attack = 40;
+		player_pokemon.defense = 8;
+		player_pokemon.max_HP = 50;
 	}
 	// Squirtle
 	else if (chosen_pokemon == 2)
@@ -809,9 +791,9 @@ int main()
 		player_pokemon.move_types[1] = "Normala";
 		player_pokemon.move_types[2] = "Ura";
 		player_pokemon.move_types[3] = "Izotza";
-		player_pokemon.attack = 30; // aldi baterakoa
-		player_pokemon.defense = 12; // aldi baterakoa
-		player_pokemon.max_HP = 60; // aldi baterakoa
+		player_pokemon.attack = 30;
+		player_pokemon.defense = 12;
+		player_pokemon.max_HP = 60;
 	}
 	// Chikorita
 	else if (chosen_pokemon == 3)
@@ -824,9 +806,9 @@ int main()
 		player_pokemon.move_types[1] = "Normala";
 		player_pokemon.move_types[2] = "Landarea";
 		player_pokemon.move_types[3] = "Pozoia";
-		player_pokemon.attack = 20; // aldi baterakoa
-		player_pokemon.defense = 18; // aldi baterakoa
-		player_pokemon.max_HP = 80; // aldi baterakoa
+		player_pokemon.attack = 20;
+		player_pokemon.defense = 18;
+		player_pokemon.max_HP = 80;
 	}
 	
 	print_from_txt(player_pokemon.name + ".txt");

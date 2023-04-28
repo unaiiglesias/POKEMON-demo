@@ -499,6 +499,9 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 	int enemy_HP = enemy_pokemon.max_HP;   // Kalkuluak flaot-ekin egin arrren, zenbaki osoetara borobilduko dira
 	int potion_amount = 2;
 	
+	//
+	// Pokemon bakoitzaren agerpena
+	//
 	
 	if (enemy_sprite != " ") // Aurkaria eta gimnasio liderrarentzat
 	{
@@ -520,6 +523,7 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 		
 	} else // pokemon basatia
 	{
+		// Pokemonaren aurkezpena (Ez du jaberik, basatia da)
 		print_from_txt(enemy_pokemon_sprite);
 		string enemy_introduction[] = {enemy_pokemon.name + " basati bat agertu da!"};
 		print_dialogue(enemy_introduction, 1);
@@ -529,7 +533,9 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 		
 	}
 	
+	//
 	// Borrokaren bukle nagusia
+	//
 	
 	while ((player_HP > 0) && (enemy_HP > 0))
 	{
@@ -597,6 +603,7 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 				player_HP = player_pokemon.max_HP;
 			}
 			
+			// Egindakoa jakinarazi
 			string sendatu_da[] = {" " + player_pokemon.name + "-ek 20 HP berreskuratu ditu!"};
 			print_dialogue(sendatu_da, 1);
 			print_hp_bars(player_pokemon, enemy_pokemon, player_HP, enemy_HP);
@@ -633,6 +640,7 @@ void pokemon_combat(struct pokemon player_pokemon, struct pokemon enemy_pokemon,
 		// Txanda makinari pasa
 		turn = 'e';
 	}
+	
 	// Programa hona iristen bada, borroka bukatu da
 	
 	if (enemy_HP <= 0){ // Jokalariak irabazi du
